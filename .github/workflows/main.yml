@@ -3,26 +3,14 @@ name: Release Creation
 on:
   release:
     types: [published]
-  workflow_dispatch:
-    inputs:
-      debug_enabled:
-        type: boolean
-        description: "Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)"
-        required: false
-        default: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash
-        working-directory: /src
+        working-directory: ./src
     steps:
-      # Enable tmate debugging of manually-triggered workflows if the input option was provided
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
       - uses: actions/checkout@v2
 
       # get part of the tag after the `v`
